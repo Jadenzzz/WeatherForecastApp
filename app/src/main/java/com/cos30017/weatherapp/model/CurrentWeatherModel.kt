@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import com.cos30017.weatherapp.data.db.entity.current.Location
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
-@Entity(tableName = "current")
 data class CurrentWeatherModel (
     @SerializedName("observation_time")
     var observationTime: String,
@@ -33,3 +32,6 @@ data class CurrentWeatherModel (
     var isDay: String,
     var location: String?,
     )
+{
+
+}
