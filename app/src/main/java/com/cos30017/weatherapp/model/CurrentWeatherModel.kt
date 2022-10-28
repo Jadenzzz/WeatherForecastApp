@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 @Entity(tableName = "current")
 data class CurrentWeatherModel (
+    @PrimaryKey
     @SerializedName("observation_time")
     var observationTime: String,
     var temperature: Int,
@@ -15,8 +16,6 @@ data class CurrentWeatherModel (
     var weatherCode: Int,
     @SerializedName("weather_icons")
     var weatherIcons: List<String>,
-    @SerializedName("weather_descriptions")
-    var weatherDescriptions: List<String>,
     @SerializedName("wind_speed")
     var windSpeed: Int,
     @SerializedName("wind_degree")
