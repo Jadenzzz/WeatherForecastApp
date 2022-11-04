@@ -24,7 +24,8 @@ data class CurrentWeatherModel (
     var windDir: String,
     var pressure: Int,
     var humidity: Int,
-
+    @SerializedName("weather_descriptions")
+    val weatherDescriptions: List<String>,
     @SerializedName("uv_index")
     var uvIndex: Int,
     var visibility: Int,

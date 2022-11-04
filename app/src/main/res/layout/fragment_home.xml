@@ -40,7 +40,7 @@
             android:id="@+id/city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Melbourne"
+            android:text="Unknown"
             android:textAllCaps="false"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -69,16 +69,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="8sp"
-            android:text="34"
+            android:text="00"
             android:textSize="96sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unknown" />
+
+        <TextView
+            android:id="@+id/windspeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unknown" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Unknown" />
 
     </LinearLayout>
 
     <ImageView
         android:id="@+id/weather_icon"
-        android:layout_width="154dp"
-        android:layout_height="176dp"
+        android:layout_width="122dp"
+        android:layout_height="154dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

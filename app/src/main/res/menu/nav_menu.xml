@@ -10,14 +10,5 @@
 
         android:id="@+id/calendarFragment"
         android:icon="@drawable/ic_baseline_calendar_today_24"
-        android:title="calendar" />
-    <item
-        android:id="@+id/favouriteFragment"
-        android:title="favouriteFragment"
-        android:icon="@drawable/ic_baseline_favorite_border_24"/>
-    <item
-
-        android:id="@+id/settingFragment"
-        android:icon="@drawable/ic_baseline_settings_24"
-        android:title="setting" />
+        android:title="forecast" />
 </menu>

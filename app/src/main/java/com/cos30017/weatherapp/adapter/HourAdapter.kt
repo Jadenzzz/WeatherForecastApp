@@ -26,11 +26,13 @@ class HourAdapter(private var hourList: List<Hour>,
         holder.bind(hourList[position])
     }
 
+    //get the size of list
     override fun getItemCount(): Int {
         Log.i("sizeC",hourList.size.toString())
         return hourList.size
     }
 
+    //change list of data
     fun setList(list: List<Hour>) {
         hourList = list
         Log.i("size",list.size.toString())
@@ -38,15 +40,19 @@ class HourAdapter(private var hourList: List<Hour>,
     }
 
     inner class HourViewHolder(val v: View): RecyclerView.ViewHolder(v) {
+        //specify all item in the layout
         val conditionIcon = v.findViewById<ImageView>(R.id.condition)
-        val time = v.findViewById<TextView>(R.id.hour)
-        val avgT = v.findViewById<TextView>(R.id.maxTemp)
+        val min = v.findViewById<TextView>(R.id.minTemp)
+        val max = v.findViewById<TextView>(R.id.maxTemp)
+        val hour = v.findViewById<TextView>(R.id.hour_list)
 
+        //bind data
         fun bind(item: Hour) {
 
             Picasso.with(itemView.context).load("http:"+item.condition.icon).into(conditionIcon)
-            time.text = item.time
-            avgT.text = item.tempC.toString()
+            min.text = "Humidity: " + item.humidity.toString()
+            max.text = "Temp: " + item.tempC.toString()
+            hour.text = item.time
 
 
         }

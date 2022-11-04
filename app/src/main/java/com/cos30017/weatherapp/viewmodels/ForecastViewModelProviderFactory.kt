@@ -4,14 +4,15 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.cos30017.weatherapp.repository.CurrentWeatherRepository
+import com.cos30017.weatherapp.repository.ForecastRepository
 
-class ViewModelProviderFactory(
+class ForecastViewModelProviderFactory(
     val app: Application,
-    val currentRepository: CurrentWeatherRepository
+    val forecastRepository: ForecastRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CurrentViewModel(app, currentRepository) as T
+        return ForecastViewModel(app, forecastRepository) as T
     }
 
 }

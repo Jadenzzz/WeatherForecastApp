@@ -1,4 +1,4 @@
-package com.cos30017.weatherapp.api.current
+package com.cos30017.weatherapp.api
 
 import com.cos30017.weatherapp.data.db.network.response.CurrentWeatherResponse
 import com.cos30017.weatherapp.data.db.network.response.ForecastResponse
@@ -9,6 +9,7 @@ import retrofit2.http.Query
 
 //http://api.weatherstack.com/current?access_key=7c335010ccc9639040be51bb98ea318e&query=Melbourne&lang=en
 interface APIWeather {
+    //query for getting current weather data
     @GET("current")
     suspend fun getCurrentWeather(
         @Query("access_key") key:String,
@@ -16,6 +17,8 @@ interface APIWeather {
         @Query("lang") languageCode: String = "en"
     ): Response<CurrentWeatherResponse>
 
+
+    //query for getting forecast weather data
     @GET("forecast.json")
     suspend fun getForecast(
         @Query("key") key:String,

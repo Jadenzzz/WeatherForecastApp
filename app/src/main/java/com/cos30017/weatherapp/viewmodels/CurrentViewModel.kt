@@ -8,7 +8,6 @@ import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
 import com.cos30017.weatherapp.WeatherApplication
-import com.cos30017.weatherapp.data.db.database.CurrentDatabase
 
 import com.cos30017.weatherapp.data.db.network.response.CurrentWeatherResponse
 import com.cos30017.weatherapp.model.CurrentWeatherModel
@@ -40,25 +39,32 @@ class CurrentViewModel(
         safeSearchCurrentCall(city)
     }
 
+    //check internet connection
     private fun hasInternetConnection(): Boolean {
+        //register activity with the connectivity manager
         val connectivityManager = getApplication<WeatherApplication>().getSystemService(
             Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
+        ) as ConnectivityManager // init connectivity manager
+
+        //specify connectivity manager base on current build version
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val activeNetwork = connectivityManager.activeNetwork ?: return false
-            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+            //init network object
+            val network = connectivityManager.activeNetwork ?: return false //check if network is available
+            //return the capabilities and an active network
+            val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
             return when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true//wifi check
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true//cellular check
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true//ethernet check
                 else -> false
             }
         } else {
+            //if the build version is below M
             connectivityManager.activeNetworkInfo?.run {
                 return when(type) {
-                    ConnectivityManager.TYPE_WIFI -> true
-                    ConnectivityManager.TYPE_MOBILE -> true
-                    ConnectivityManager.TYPE_ETHERNET -> true
+                    ConnectivityManager.TYPE_WIFI -> true//wifi check
+                    ConnectivityManager.TYPE_MOBILE -> true//cellular check
+                    ConnectivityManager.TYPE_ETHERNET -> true//ethernet check
                     else -> false
                 }
             }
@@ -66,20 +72,14 @@ class CurrentViewModel(
         return false
     }
 
-
     private fun handleCurrentWeatherResponse(response: Response<CurrentWeatherResponse>) : Resource<CurrentWeatherResponse> {
+        //return response if the request is success
         if(response.isSuccessful) {
 
             response.body()?.let { resultResponse ->
-                if(currentResponse == null) {
-                    Log.i("RESPONSE", "Success")
+
                     currentResponse = resultResponse
-                } else {
-                    Log.i("RESPONSE", "Fail")
-                    var oldCurrent = currentResponse?.current
-                    val newCurrent = resultResponse.current
-                    oldCurrent = newCurrent
-                }
+
                 return Resource.Success(currentResponse ?: resultResponse)
             }
         }
@@ -88,19 +88,21 @@ class CurrentViewModel(
     }
 
     private suspend fun safeSearchCurrentCall(city: String) {
+        //post value to resource loading state
         currentWeather.postValue(Resource.Loading())
         Log.v("check", currentWeather.value.toString())
         try {
             if(hasInternetConnection()) {
                 val response = currentRepository.getCurrent(city)
                 Log.v("checkre", response.body().toString())
-                currentWeather.postValue(handleCurrentWeatherResponse(response))
+                currentWeather.postValue(handleCurrentWeatherResponse(response))//if connection is healthy then post response to handle function
 
             } else {
-                currentWeather.postValue(Resource.Error("No internet connection"))
+                currentWeather.postValue(Resource.Error("No internet connection"))// if there is connection error then post value to error class of resource
             }
         } catch(t: Throwable) {
             when(t) {
+                //Other error
                 is IOException -> currentWeather.postValue(Resource.Error("Network Failure"))
                 else -> {currentWeather.postValue(Resource.Error("Conversion Error"))
                     Log.v("check", currentWeather.value.toString())}
@@ -108,10 +110,4 @@ class CurrentViewModel(
         }
     }
 
-    fun getSavedCurrent() = currentRepository.getSavedCurrent()
-
-
-    fun saveCurrent(current: CurrentWeatherModel) = viewModelScope.launch {
-        currentRepository.upsert(current)
-    }
 }

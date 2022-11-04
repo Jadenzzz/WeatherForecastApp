@@ -23,11 +23,13 @@ class ForecastAdapter(private var forecastList: List<ForecastModel>,
         holder.bind(forecastList[position])
     }
 
+    //get items size
     override fun getItemCount(): Int {
         Log.i("sizeC",forecastList.size.toString())
         return forecastList.size
     }
 
+    //change data when needed
     fun setList(list: List<ForecastModel>) {
         forecastList = list
         Log.i("size",list.size.toString())
@@ -35,16 +37,19 @@ class ForecastAdapter(private var forecastList: List<ForecastModel>,
     }
 
     inner class ForecastViewHolder(val v: View): RecyclerView.ViewHolder(v) {
+        //specify all items in layout
         val conditionIcon = v.findViewById<ImageView>(R.id.condition)
-        val date = v.findViewById<TextView>(R.id.hour)
+        val date = v.findViewById<TextView>(R.id.date_list)
         val maxT = v.findViewById<TextView>(R.id.maxTemp)
+        val minT = v.findViewById<TextView>(R.id.minTemp)
 
+        //bind data
         fun bind(item: ForecastModel) {
 
             Picasso.with(itemView.context).load("http:"+item.day.condition.icon).into(conditionIcon)
             date.text = item.date
-            maxT.text = item.day.maxtempC.toString()
-
+            maxT.text = "Max Temp: "+item.day.maxtempC.toString() +"\u2103"
+            minT.text = "Min Temp: "+item.day.mintempC.toString() +"\u2103"
             v.setOnClickListener() {
                 listener(item)
             }

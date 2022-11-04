@@ -14,14 +14,4 @@
         android:name="com.cos30017.weatherapp.ui.calendar.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
-    <fragment
-        android:id="@+id/settingFragment"
-        android:name="com.cos30017.weatherapp.ui.setting.SettingFragment"
-        android:label="fragment_setting"
-        tools:layout="@layout/fragment_setting" />
-    <fragment
-        android:id="@+id/favouriteFragment"
-        android:name="com.cos30017.weatherapp.ui.favourite.FavouriteFragment"
-        android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" />
 </navigation>
